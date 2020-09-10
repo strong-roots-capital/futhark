@@ -75,7 +75,7 @@ optimiseStm stage (Let pat aux (Op (OtherOp soac)))
   | sequentialise stage soac = do
     stms <- runBinder_ $ FOT.transformSOAC pat soac
     fmap concat $ localScope (scopeOf stms) $ mapM (optimiseStm stage) $ stmsToList stms
-  | otherwise = do
+  | otherwise =
     -- Still sequentialise whatever's inside.
     pure <$> (Let pat aux . Op . OtherOp <$> mapSOACM optimise soac)
   where

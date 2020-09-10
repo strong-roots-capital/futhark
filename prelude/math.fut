@@ -2,8 +2,6 @@
 
 import "soacs"
 
-local let const 'a 'b (x: a) (_: b): a = x
-
 -- | Describes types of values that can be created from the primitive
 -- numeric types (and bool).
 module type from_prim = {

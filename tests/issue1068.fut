@@ -22,6 +22,7 @@ let gfft [n] (inverse: bool) (xs:[n]complex) : [n]complex =
   let iteration [l] ((xs:[l]complex), m, e, theta0) =
     let modc = (1 << e) - 1
     let xs' = tabulate l (\i ->
+                            let i = i32.i64 i
                             let q = i & modc
                             let p'= i >> e
                             let p = p'>> 1
@@ -32,7 +33,7 @@ let gfft [n] (inverse: bool) (xs:[n]complex) : [n]complex =
                                then mulC (complex (f32.cos theta) (-f32.sin theta)) (subC a b)
                                else addC a b )
     in (xs', m >> 1, e + 1, theta0 * 2)
-  in (iterate iter iteration (xs, n>>1, 0, pi*f32.from_fraction (dir*2) n) |> (.0))
+  in (iterate iter iteration (xs, i32.i64 (n>>1), 0, pi*f32.from_fraction (dir*2) (i32.i64 n)) |> (.0))
 
 let gfft3 [m][n][k] inverse (A:[m][n][k]complex) =
   tabulate_2d n k (\i j -> gfft inverse A[:,i,j])

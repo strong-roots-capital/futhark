@@ -42,6 +42,7 @@ failureSwitch failures =
          in concatMap escapeChar
       onPart (ErrorString s) = printfEscape s
       onPart ErrorInt32 {} = "%d"
+      onPart ErrorInt64 {} = "%lld"
       onFailure i (FailureMsg emsg@(ErrorMsg parts) backtrace) =
         let msg = concatMap onPart parts ++ "\n" ++ printfEscape backtrace
             msgargs = [[C.cexp|args[$int:j]|] | j <- [0 .. errorMsgNumArgs emsg -1]]

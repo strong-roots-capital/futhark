@@ -35,9 +35,9 @@ let bounded (max: f32)
   then x
   else (x + max) f32.% max
 
-let loc2grid (grid_size: i32)
+let loc2grid (grid_size: i64)
              (real_loc: f32)
-             : i32 =
+             : i64 =
   let gs_f = r32 grid_size
   in if real_loc >= 0 && real_loc < gs_f
      then t32 real_loc
@@ -64,7 +64,7 @@ let move_step (p: model_params)
 let step_agent (p: model_params)
                (trail_map: [][]f32)
                ({loc,ang}: agent)
-               : (agent, (i32, i32)) =
+               : (agent, (i64, i64)) =
   let sl = read_sensor p trail_map loc (ang + p.sensor_angle)
   let sf = read_sensor p trail_map loc ang
   let sr = read_sensor p trail_map loc (ang - p.sensor_angle)
@@ -86,7 +86,7 @@ let step_agents [h][w][a]
 let disperse_cell [h][w]
                   (p: model_params)
                   (trail_map: [h][w]f32)
-                  (x: i32) (y: i32)
+                  (x: i64) (y: i64)
                   : f32 =
   let neighbors = map (\(dx,dy) -> trail_map[(y+dy+h) i32.% h,
                                              (x+dx+w) i32.% w]
@@ -108,13 +108,13 @@ let simulation_step [h][w][a]
   e |> step_agents |> disperse_trail
 
 let to_deg (rad: f32): i32 = 180 * rad / f32.pi |> f32.round |> t32
-let to_rad (deg: i32): f32 = r32 deg * f32.pi / 180
+let to_rad (deg: i64): f32 = r32 deg * f32.pi / 180
 
 let build_test_env [h][w][a]
                    (trail_map: [h][w]f32)
                    (agent_xs: [a]f32)
                    (agent_ys: [a]f32)
-                   (agent_angs: [a]i32)
+                   (agent_angs: [a]i64)
                    : env[h][w][a] =
   let model_params = { pct_pop=0
                      , decay=0.5
@@ -131,7 +131,7 @@ entry test_single_step_trail [h][w]
                              (trail_map: [h][w]f32)
                              (x: f32)
                              (y: f32)
-                             (ang: i32)
+                             (ang: i64)
                              : [h][w]f32 =
   let e = simulation_step (build_test_env trail_map [x] [y] [ang])
   in e.trail_map

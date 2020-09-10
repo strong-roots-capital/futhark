@@ -12,10 +12,10 @@ let argmax (arr: []f32) =
                  else if j < i then (b, j)
                  else (a, i))
               (0, 0)
-              (zip arr (indices arr))
+              (zip arr (map i32.i64 (indices arr)))
 
 let f [m] [n] (A:[m][n]f32) =
-  loop A for i < i32.min m n do
+  loop A for i < i32.i64 (i64.min m n) do
   let j = A[i:,i] |> map f32.abs |> argmax |> (.1) |> (+i)
   in map (map (*A[j,j])) A
 

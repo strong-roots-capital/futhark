@@ -7,14 +7,14 @@ open import "math"
 open import "functional"
 
 -- | Create single-precision float from integer.
-let r32 (x: i32): f32 = f32.i32 x
+let r32 (x: i64): f32 = f32.i64 x
 -- | Create integer from single-precision float.
-let t32 (x: f32): i32 = i32.f32 x
+let t32 (x: f32): i64 = i64.f32 x
 
 -- | Create double-precision float from integer.
-let r64 (x: i32): f64 = f64.i32 x
+let r64 (x: i64): f64 = f64.i64 x
 -- | Create integer from double-precision float.
-let t64 (x: f64): i32 = i32.f64 x
+let t64 (x: f64): i64 = i64.f64 x
 
 -- | Semantically just identity, but serves as an optimisation
 -- inhibitor.  The compiler will treat this function as a black box.

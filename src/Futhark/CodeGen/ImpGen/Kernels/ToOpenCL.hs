@@ -782,6 +782,10 @@ inKernelOperations mode body =
           setArgs i (ErrorInt32 x : parts') = do
             x' <- GC.compileExp x
             stms <- setArgs (i + 1) parts'
+            return $ [C.cstm|global_failure_args[$int:i] = (typename int64_t)$exp:x';|] : stms
+          setArgs i (ErrorInt64 x : parts') = do
+            x' <- GC.compileExp x
+            stms <- setArgs (i + 1) parts'
             return $ [C.cstm|global_failure_args[$int:i] = $exp:x';|] : stms
       argstms <- setArgs (0 :: Int) parts
 

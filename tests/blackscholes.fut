@@ -291,7 +291,7 @@ let go (x: (bool,f64,f64,f64)): f64 =
 let blackscholes (xs: [](bool,f64,f64,f64)): []f64 =
    map  go xs
 
-let main (years: i32): []f64 =
+let main (years: i64): []f64 =
   let days = years*365
   let a = map (+1) (iota(days))
   let a = map r64 a
